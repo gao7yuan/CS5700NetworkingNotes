@@ -1,0 +1,75 @@
+# Web and HTTP
+
+- web page
+  - objects
+  - HTML file, JPEG image, JS file...
+  - base url
+  - each object is addressable by URL
+  - host name + path name
+- http
+  - client: browser
+  - server: web server sends objects in response to requests
+- http overview
+  - TCP
+  - server port 80
+  - http is *"stateless"*
+    - server maintains no info about past client requests
+    - stateless vs. stateful
+      - stateful: e.g. what the client asked for 10 min ago
+      - TCP maintains a lot of states
+        - TCP: connection between two machines, at a different level than http
+- http connections
+  - non-persistent http 1.0
+    - at most *one* object send over a TCP connection
+      - connection then closed
+    - downloading multiple objects requires *multiple connections*
+  - persistent http 1.1
+    - *multiple* objects can be sent over single TCP connection
+- http response time
+  - one RTT(round trip time) to initiate TCP connection
+  - one RTT for http request and first few bytes of http response to return
+  - file transmission time
+- http request message
+  - ASCII(human-readable format)
+  - request line (GET, POST, HEAD commands)
+    - method, url to object, protocol version
+    - followed by `\r\n` (2 bytes)
+  - header lines
+- http methods
+- http response message
+  - status line
+    - version, code, status phrase
+  - header lines
+- cookies
+  - cookie header line of http response message
+  - cookie header line in next http request message
+  - cookie file kept on user's host, *managed by user's browser*
+    - browser manages cookies
+  - back-end database at server side
+    - each domain sets cookies
+- web proxy server
+  - goal: satisfy client request without involving origin server
+  - browser sends all http requests to proxy
+  - proxy acts as both client and server
+  - benefit:
+    - calculations
+    - reduce queueing delay
+- conditional GET
+  - goal: don't send object if cache has up-to-date version
+- server web content
+  - single server for web content?
+    - availability
+    - scalability
+    - single point of failure
+    - easier to be overloaded
+    - ?
+  - ISP proxy caching
+    - pros
+      - reduced latency for cached contents
+    - cons
+      - security/authentication
+      - fine-grained control on when and where to cache content
+      - cold start
+- CDN
+  - content delivery networks
+  - content provider -> CND -> ISP

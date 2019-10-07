@@ -1,0 +1,65 @@
+## what is internet
+- components
+  - hosts
+  - communication links
+  - packet switches
+- structure
+  - network edge
+  - network core
+
+- network edge
+  - hosts: clients and servers
+  - access network
+  - frequency division multiplexing
+    - higher freq range, higher data rate (bandwidth)
+- network core
+  - interconnected routers
+    - two key functions for each router
+      - routing: source to destination route taken by packets
+      - forwarding: packets from routers input port to output port
+  - *packet switching*
+    - packet switching vs. frequency division multiplexing
+    - break application layer msg to packets
+    - forward packets from one router to the next
+    - each packet transmitted at full link capacity
+    - trade-off for better resource sharing
+- internet structure
+  - ISP
+  - IXP
+  - content provider network
+  - regional net
+
+## protocol
+- protocol layers
+  - application
+    - format and meaning of messages
+    - e.g. HTTP, SMTP
+  - transport
+    - communication between a pair of *applications(processes)*
+    - reliable delivery and retransmission
+    - control data rate
+    - e.g. TCP, UDP
+  - network
+    - communication between a pair of *computers* across the internet
+    - packet format(datagram)
+    - internet address
+    - e.g. IP protocol
+  - link
+    - communication between computer and network hardware
+    - MAC layer, network interface layer
+    - media access (printer)
+    - packet format(frame)
+    - hardware address(MAC)
+  - physical
+    - 0-1 signal, electrical properties
+
+## key metrics
+- delay aka latency
+  - processing delay
+  - transmission delay
+    - L/R (L = packet length, R = link data rate)
+  - propagation delay
+    - d/s (d = length of physical link, s = propagation speed)
+  - queuing delay
+- throughput (bits / time unit)
+- loss
