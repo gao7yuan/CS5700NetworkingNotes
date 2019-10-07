@@ -62,3 +62,8 @@
     - find grained control when and where
     - cold start
 - CDN - content delivery networks
+  - content providers contract with CDN companies
+  - CDN companies have service in a lot of networks
+  - better coordination with replicas
+  - proactively content replication on edge servers
+  - win-win for both ISP and content providers
