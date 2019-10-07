@@ -35,3 +35,30 @@
   - backend db at server side
 
 # web proxy server
+- proxy
+  - goal: satisfy client request without involving origin server
+  - browser sends all http requests to proxy
+    - hit
+    - miss - request from origin server
+  - act as **both client and server**
+  - installed by ISP
+- benefits
+  - reduce response time
+  - reduce traffic to org's access link
+  - better UX and save $$$
+- conditional GET
+  - 304 Not Modified
+
+# CDN
+- single web server
+  - single point of failure
+  - easier to be overloaded
+  - long latency
+- ISP proxy caching
+  - pros
+    - reduce latency
+  - cons
+    - security/authentication
+    - find grained control when and where
+    - cold start
+- CDN - content delivery networks
