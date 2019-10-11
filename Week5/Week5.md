@@ -1,0 +1,93 @@
+# SMTP
+- email
+  - three major components
+    - user agents (on the client side)
+    - mail servers ()
+    - SMTP (simple mail transfer protocol)
+- user agent
+  - aka "mail reader"
+  - composing, editing, reading email msgs
+    - e.g. outlook, thunderbird
+  - outgoing, incoming mails stored on mail servers
+- mail servers
+  - hold incoming and outgoing email messages for users
+  - use SMTP protocol to send emails
+- SMTP
+  - TCP
+  - port 25
+  - commands and response
+    - commands: ASCII text
+    - response: status code and phrase
+
+# DHCP
+- how does a host get IP address
+  - hard-coded by system admin
+  - DHCP
+    - dynamic host configuration protocol
+    - dynamically get address from a server
+- DHCP
+  - goal: allow host to dynamically obtain IP address when it joins network
+  - overview
+    - host broadcasts "DHCP discover" msg
+      - *local broadcast ip address 255.255.255.255*
+      - another is called *network broadcast ip address for 10.0.1.0/24 is 10.0.1.255*
+  - use UDP, because cannot build connection
+- more than IP address
+  - mask
+    - **routing algorithm** -> first thing to check:
+      - two should be on the same network -> link layer thing, don't need to go through router
+      - different network -> send to router
+  - name and IP of local DNS
+  - address of first-hop router
+
+# Summary on Application Layer
+
+# Transport Layer
+- transport services and protocols
+  - logical communication between application processes
+  - run in end systems, not the core
+  - more than one transport protocol available to applications
+    - TCP UDP
+- network layer?
+  - transport layer vs. network layer
+    - network layer (IP layer)
+      - packet delivery
+- network layer service model
+  - **best effort** - no guarantee of delivery
+- transport layer protocols
+  - TCP
+  - UDP
+  - services not available
+    - delay...
+- UDP
+  - user datagram protocol
+    - connection less
+    - no guarantee of delivery
+  - when use UDP
+    - broadcast: DHCP
+    - DNS - why: speed!!! (TCP sets up connection)
+- UDP header - 8 bytes
+  - source port & destination port (port: identify process)
+  - IP address part of IP header not UDP header
+  - checksum
+- UDP checksum
+  - alternatives
+    - another more robust way to do this (with more money): CRC 32-bit signature (ethernet)
+    - another: MD5 256-bit signature
+    - SHA2 SHA3
+    - these are all too expensive and takes too much time
+    - so use simple checksum
+  - 1's complement
+    - 0011 = 3
+    - first bit as sign bit
+    - 1100 = -3 (1's complement)
+    - 3 + (-3) = 1111 = 0 = 0000
+    - -0 = 1111
+    - 0 = 0000 (checksum is disabled)
+  - 2's complement
+    - 0011 = 3
+    - 1101 = -3
+    - 3 + (-3) = 0000
+- UDP socket
+- reliable data transfer
+  - important in application, transport and link layers
