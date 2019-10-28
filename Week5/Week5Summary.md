@@ -56,3 +56,7 @@
 - receiver
   - check if received packet is duplicate (use seq #)
   - send ACK or NAK for each packet
+- rtd 2.0
+  - ACK & NAK
+- rtd 2.1
+  - ACK + sequence number

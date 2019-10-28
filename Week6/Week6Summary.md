@@ -1,0 +1,23 @@
+# Week6 Summary
+
+- rtd 2.0
+  - ACK & NAK
+- rtd 2.1 - ACK and NAK could be corrupted
+  - ACK + sequence number
+- rdt 2.2 - NAK-free protocol
+  - if NAK: receiver sends ACK for last pkt
+- rdt 3.0 - channel with errors and loss
+  - need timeout
+  - re-transmit if no ACK within this time
+  - receiver must include sequence number
+- pipelined protocols
+  - sender allows multiple "in-flight" (yet-to-be-acked) pkts
+- **Go-Back-N GBN**
+  - sender can have up to N un-ACKed pkts
+  - receiver only sends cumulative ACK
+  - sender has timer for oldest un-ACKed pkt
+- **Selective-Repeat SR**
+  - sender can have up to N un-ACKed pkt
+  - receiver sends individual ACK for each pkt
+  - sender remains timer for each un-ACKed packet
+    - when timer expires, re-transmit only that un-ACKed packet
