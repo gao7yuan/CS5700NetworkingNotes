@@ -1,0 +1,110 @@
+# Week 9
+
+- transport layer
+  - process to process
+- network layer
+  - host to host communication
+
+## Network Layer
+- two key functions
+  - forwarding
+    - move packets from router's input port to output port
+    - local, per router function
+  - routing
+    - determine route from source to destination for a packet
+- network service model
+  - best effort
+- inside a router
+  - check CPU usage and such to determine output port, lookup table
+  - very very high speed
+  - typical data rate 1 Giga bit per second
+  - don't need to care about termination part...
+- destination-based forwarding table
+  - destination address out of packet (used to be routing table)
+  - ranges may overlap: **always pick the longest match**
+- longest prefix matching
+- how many prefixes
+  - IPv4: 1 million, IPv6: 100,000
+
+## IP(v4 and v6)
+- IPv4 datagram format
+  - overhead
+    - 20 bytes of TCP
+    - 20 bytes of IP (header)
+    - = 40 bytes + app layer overhead
+  - upper layer: specify TCP or UDP
+  - time to live: to mitigate loop
+  - header length: 20 or more (options)
+- IP fragmentation, reassembly
+  - network links have MTU (**max transfer size**, limitation on link layer, e.g. ethernet vs. wifi vs. fiber), aka largest possible link level frame
+  - IP header used to identify, order related fragments
+  - fragmentation"
+    - in: one large datagram
+    - out: 3 smaller datagrams
+  - reassembly
+  - what info do we need
+    - ID, offset, last fragment
+- why bad (IPv6 discarded fragmentation)
+  - success delivery is p
+  - **TCP max segment size usually 1460 bytes because ethernet MTU is 1500 bytes**
+- IPv6 motivation
+  - out of IPv4 addresses
+- IPv6 datagram format
+  - address bits
+  - hop limit: ttl
+  - next hdr: transport layer protocol
+- IPv6 header
+  - fixed length 40 bytes
+    - 32 bytes used for source and destination IP addresses
+  - no checksum
+    - lower layer protocols have CRC to detect errors
+- IPv6 address notation
+  - 128 bits noted as eight 16-bit fields
+  - :
+  - each integer represented by 4 hexadecimal digits
+  - CIDR
+
+## Routing Protocols
+- routing
+  - two approaches
+    - per-router control(traditional)
+      - more distributed
+      - router smart
+    - logically centralized control (software defined networking, aka SDN)
+      - router dumb
+- goal of routing protocols
+  - good path
+    - latency
+    - cost
+    - bandwidth
+- graph abstraction of the network
+  - undirected weighted graph
+  - key question: least-cost path?
+  - routing algorithm
+- routing algorithm classification
+  - global
+    - all routers have complete topology, link cost info
+    - **"link state" algorithm**
+  - decentralized
+    - only know neighbors
+    - **"distance vector" algorithm**
+- link-state routing algorithm
+  - Dijkstra's algo
+  - how do you broadcast info
+- distance vector algorithm
+  - distributed version of Bellman-Ford
+  - only exchange distance info with neighbors
+  - bad news travels slow
+    - y <-> z till ttl
+    - it's a bad thing!
+- how to fix it? poisoned reverse
+  - if z routes through y to get to x
+    - z tells y its distance to x is infinite
+    - so y won't route to x via z
+- LS vs. DV
+  - message complexity
+    - LS: n nodes and E links, O(nE) msg sent
+    - DV: it varies
+  - speed of convergence
+    - LS: with n nodes and E links, O(n^2)
+    - DV: it varies
