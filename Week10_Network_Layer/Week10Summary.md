@@ -1,0 +1,190 @@
+# week 10 summary - network layer
+
+## overview
+- network layer functions
+  - forwarding
+    - input port -> output port
+    - local
+  - routing
+    - route from source to destination
+    - network wide logic
+- network service model
+  - best effort
+- longest prefix matching
+  - destination-based forwarding table
+- network layer
+  - routing protocol
+  - IP protocol
+  - ICMP protocol
+
+## IP (v4 and v6)
+- ipv4 datagram format
+  - overhead
+    - 20 bytes TCP + 20 bytes IP + app layer overhead
+- ip fragmentation, reassembly
+  - MTU = maximum transfer size (unit)
+  - large ip datagram will be fragmented
+  - ip header used to identify
+    - 16-bit identifier
+    - flag
+    - fragment offset
+  - bad! -> low probability of successful delivery
+- ipv6 header
+  - 40 bytes
+    - 32 bytes for source and destination ip addresses
+  - no checksum
+  - hop limit == ttl
+  - next hdr: transport layer protocol
+- ipv6 address notation
+  - 128 bits = 8 * 16-bit = 8 * 4 hexadecimal digits
+  - `::` means all 0 in between
+  - CIDR notation
+  - network portion 64 bits, host portion 64 bits
+  - ISP: /48
+  - subnetwork: /16 = 2^16 = 65536
+  - /64 to each interface
+
+## routing protocols
+- routing
+  - approaches
+    - per-route control (traditional)
+      - individual routing algorithm in each router, interact with each other
+    - logically centralized control (software defined networking, aka SDN)
+      - remote controller interacts with local control agents (CAs)
+- goal of routing protocols
+  - determine good paths from source to destination
+  - path = sequence of routers packets will traverse
+- graph abstraction of network
+  - graph G = (N, E)
+  - N = set of routers (vertices)
+  - E = set of links (edges)
+  - cost inversely related to bandwidth & congestion
+  - routing algorithm: find the least-cost path
+- routing algorithm classification
+  - global
+    - all routers have complete topology, link cost info
+    - **"link state" algorithm**
+  - decentralized
+    - router only knows physically connected neighbors, link cost to neighbors
+    - *iterative process* of computation and exchange info
+    - **"distance vector" algorithm**
+- link state routing algorithm
+  - Dijkstra
+  - link-state broadcast, all nodes have same info
+  - least cost path from one to all other nodes
+    - produce forwarding table for that node
+- distance vector algorithm
+  - distributed version of Bellman-Ford
+  - d(x, y) = min{c(x, v) + d(v, y)}
+  - distance vector dx = [d(x, y) for y in N]
+  - *iterative and asynchronous*
+    - local link cost change
+    - distance vector update from neighbors
+  - *distributed*
+    - only notify neighbors
+- poisoned reverse
+  - if z routes through y to get to x
+    - z tells y its distance to x is infinite
+    - so y won't route to x via z
+- comparison between LS and DV
+  - message complexity
+    - LS: O(nE) msg sent
+    - DV: varies
+  - speed of convergence
+    - LS: O(n^2)
+    - DV: varies
+- the internet approach
+  - aggregate routers into regions "autonomous systems" (aka AS)
+  - intra-AS routing
+    - routing among hosts/routers in the same AS
+    - routers in same AS run same protocol
+    - routers in diff AS can run diff protocols
+  - inter-AS routing
+    - routing among AS'es
+- intra-AS routing
+  - Interior Gateway Protocols (IGP)
+  - protocols
+    - RIP = routing information protocol
+      - distance vector
+    - OSPF = open shortest path first
+      - link state
+    - EIGRP = enhanced interior gateway routing protocol
+      - CISCO
+- inter-AS routing
+  - BGP = broader gateway protocol
+- BGP
+  - provides each AS a means to
+    - **eBGP**: obtain subnet reachability info from neighboring AS'es
+      - *get neighbor's info*
+      - gateway
+    - **iBGP**: propagate reachability info to all AS-internal routers
+      - *inform routers*
+      - gateway && internal
+    - determine good routes to other networks
+- BGP basics
+  - to scale up inter network
+  - send updates to neighbors
+  - app layer protocol using TCP
+  - AS-path info to prevent loop
+  - path selection complicated
+- BGP neighbors
+  - TCP, exchange updates
+    - manually configured
+    - two types of neighbor relationship
+      - iBGP (in same AS)
+      - eBGP (in diff AS)
+- BGP route ad
+  - routers send update to neighbors
+    - network prefixes
+    - AS-PATH attribute (path to diff destination)
+    - "path vector" protocol
+- BGP attributes (???)
+  - prefix + attributes = route
+  - two important attributes
+    - AS-PATH
+    - NEXT-HOP
+- policy-based routing
+- BGP selection
+  - local preference value attribute
+  - shortest AS-PATH
+  - closest NEXT-HOP router
+  - additional criteria
+- hot potato routing
+  - choose local gateway that has least intra domain cost
+- SDN - software defined networking
+  - traditionally
+    - control plane
+      - routing algo
+    - data plane
+  - SDN
+    - locally centralized control plane
+- SDN goals
+  - easier network management
+  - programmable
+  - open
+- SDN
+  - network control app
+  - controller
+  - switches
+- SDN data plane
+  - device
+  - table computed by controller
+  - protocol for communicating with controller
+- SDN controller
+  - network devices below via southbound API
+  - app above via northbound API
+  - distributed system
+- SDN application
+  - implement control functions
+
+## ICMP
+- ICMP
+  - internet control message protocol
+  - used by hosts & routers to communicate network level info
+    - e.g. echo request reply (ping)
+- traceroute
+  - source sends series of UDP segment to destination
+    - ttl = 1, ttl = 2, ...
+  - when datagram with ttl = n arrives to nth router
+    - router discards datagram and sends source ICMP message
+    - icmp msg: name of router and ip addresses
