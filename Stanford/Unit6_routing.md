@@ -155,6 +155,7 @@
   - **access** ISP
     - customer
     - what users connect to
+
 ## 5. BGP
 - basics
   - path vector
@@ -171,3 +172,25 @@
   - highest local preference
   - traffic engineering
   - lowest router id
+
+## 6. Multicast
+- basics
+  - network duplicates -> more efficient
+- flooding
+  - problem: looping
+- reverse path broadcast (RPB)
+  - find minimum-spanning tree in opposite direction
+  - *pruning*
+- multiple trees from difference sources
+- addresses and joining a group
+  - IPv4: class D IP addresses are for multicasting
+  - IGMP (internet group management protocol)
+    - between host and directly attached router
+    - hosts ask to receive packets belonging to a particular multicast group
+    - hosts periodically poll hosts to ask which groups they want
+    - no reply -> membership times out (soft-state)
+- multicast routing in internet
+  - DVMRP
+    - distance vector
+    - RPB + prune
+  - PIM
