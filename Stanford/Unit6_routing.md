@@ -86,3 +86,72 @@
   - split horizon with poison reverse
     - advertise infinity to where it receives from
 ## 3. Dijkstra
+- Dijkstra's shortest path algo - example of "link state algo"
+  1. exchange link state
+    - router *floods* to every other router the state of links connected to it
+      - periodically
+      - when link state changes
+      - **every router has a full topology map!!!**
+  2. run Dijkstra
+    - each router runs Dijkstra
+  - in the end each router finds its minimum-cost spanning tree to reach other routers
+- run time
+  - O(n) (n = # of routers)
+- link cost change, or routers/links fail
+  - re-calculate from scratch, no worries
+- Dijkstra in practice
+  - link state known by every router
+  - each router calculates for itself
+  - basis of OSPF
+
+## 4. Internet (RIP, OSPF) AS's
+- hierarchy
+  - exterior gateway protocol
+  - interior routing protocol
+  - single exit or stub AS
+  - multi exit or transit AS
+- AS
+  - basic unit of hierarchy in internet
+    - within AS, owner decides routing
+    - between AS's, BGP-4
+  - find AS number
+    - to find AS number for stanford.com:
+    1. query DNS to find IP address:
+      - `dig stanford.edu`
+    2. find AS for IP address:
+      - `nc whois.cymru.com 43`
+      - enter the IP address of stanford.edu
+    - to find AS along the path from my computer to netflix.com
+      - `traceroute -a netflix.com`
+- interior routing protocols
+  - RIP (distance vector)
+  - OSPF (link state)
+    - updates sent by flooding
+    - IS-IS very similar
+- routing to a single exit point
+  - small forwarding table
+- routing to multiple exit points
+  - which exit point to use?
+  - large forwarding table
+  - approach 1: hot-potato - sends to closest exit point
+  - approach 2: pick exit closest to destination
+- exterior routing protocol
+  - BGP-4
+  - problems to solve
+    - topology
+    - autonomy of AS's
+    - trust
+    - policies
+- internet structure
+![alt text](internet_structure.png)
+  - provider charges customer
+  - **Tier 1** ISP (AT&T, NTT)
+    - provider
+    - ISP's that are fully mesh interconnected with each other
+    - settlement free peering (no charge!)
+  - **regional** ISP
+    - customer of Tier 1 ISP
+    - provider of access ISP
+  - **access** ISP
+    - customer
+    - what users connect to
