@@ -155,3 +155,19 @@
   - **access** ISP
     - customer
     - what users connect to
+## 5. BGP
+- basics
+  - path vector
+    - advertise complete path
+- peering relationship
+![alt text](bgp_peering.png)
+  - a peer cannot be a transit for other peers
+- BGP messages
+  - open
+  - keep alive
+  - notification
+  - update
+- BGP route selection summary
+  - highest local preference
+  - traffic engineering
+  - lowest router id
