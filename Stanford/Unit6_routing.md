@@ -194,3 +194,7 @@
     - distance vector
     - RPB + prune
   - PIM
+
+## 7. Spanning Tree Protocol
+- routing (in ethernet)
+- preventing loops
